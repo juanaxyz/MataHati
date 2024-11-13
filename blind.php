@@ -5,44 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MataHati</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=O4BwsMp0"></script>
     <style>
         /* Tambahkan beberapa gaya untuk panel dan tombol */
         #statusPanel {
             height: 100vh;
-            /* Panel status akan mengisi tinggi layar */
             overflow-y: auto;
-            /* Jika konten lebih banyak, tambahkan scrollbar */
             padding: 20px;
-            /* Beri sedikit padding untuk estetika */
         }
 
         .big-button {
             width: 100%;
-            /* Tombol akan mengambil lebar penuh */
             height: 100px;
-            /* Tinggi tombol */
             font-size: 1.5rem;
-            /* Ukuran font yang lebih besar */
         }
 
         @media (max-width: 768px) {
-            /* Di mobile, kita bisa menyesuaikan gaya lebih lanjut jika diperlukan */
             #statusPanel {
                 height: auto;
-                /* Panel tidak perlu mengisi tinggi layar */
             }
         }
 
         .row {
             height: 100vh;
         }
-        .rounded-circle{
-            width: 400px;
-            height: 400px;
+
+        .rounded-circle {
+            width: 80vw;
+            height: 80vw;
+            max-width: 400px;
+            max-height: 400px;
             text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #dc3545; /* Red background */
+            border-radius: 50%; /* Make it circular */
+            color: white; /* Text color */
+            font-size: 2rem; /* Font size */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+        }
+
+        .rounded-circle:hover {
+            background-color: #c82333; /* Darker red on hover */
+            transform: scale(1.05); /* Slightly enlarge on hover */
+        }
+
+        .rounded-circle:active {
+            transform: scale(0.95); /* Slightly shrink on click */
         }
     </style>
 </head>
@@ -55,8 +67,8 @@
                 <p id="onlineCount">Jumlah Orang Online: <strong id="onlineNumber">5</strong></p>
             </div>
             <div class="col-lg-10 col-md-12 d-flex align-items-center bg-secondary">
-                <div class="w-100 border border-5">
-                    <div class="rounded-circle bg-danger" id="speakButton">Call Volunteer</div>
+                <div class="w-100 h-100 border border-5 d-flex justify-content-center item-center align-items-center">
+                    <div class="rounded-circle" id="speakButton">Call Volunteer</div>
                 </div>
             </div>
         </div>
