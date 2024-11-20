@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "./config/database.php";
+require_once "./database.php";
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -27,10 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             header("Location: {$accType}.php");
             exit;
         } else {
-            echo "Invalid email or password.";
+            echo "<script>alert('Invalid email or password.')</script>" ;
         }
     } else {
-        echo "Invalid email or password. aaa";
+        echo "<script>alert('Invalid email or password.')</script>" ;
     }
 
     // Close statement
@@ -45,14 +45,18 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MataHati</title>
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
 </head>
 
 <body>
-    <section class="d-flex h-100 justify-content-center align-items-center" id="loginPage">
-        <form class="bg-secondary p-3 align-middle rounded" action="" method="POST">
-            <div class="mb-3">
+    <section id="loginPage" >
+<div class="row" style="height : 100vh;">
+  <div class="col-6 col-md-8">
+
+  </div>
+  <div class="col-6 col-md-4 h-100 bg-secondary ">
+            <form class="align-middle rounded" action="" method="POST">
+                <div class="mb-3">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" required>
             </div>
@@ -63,7 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <p>Belum memiliki akun? <a href="signup.php">Daftar disini</a></p>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
-    </section>
+    </div>
+</div>
+</section>
+        
 </body>
 <script src="./assets/js/bootstrap.min.js"></script>
 </html>
