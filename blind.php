@@ -1,48 +1,11 @@
 <?php
-include 'database.php'; // Pastikan koneksi database sudah benar
+include './config/database.php'; // Pastikan koneksi database sudah benar
 session_start();
 
+$account_type = isset($_SESSION['accountType']);
 // Memeriksa apakah pengguna sudah login
-if (!isset($_SESSION['user_id'])) {
-    die("Anda harus login terlebih dahulu.");
-}
-
-// Mengambil data pengguna yang sedang login
-$user_id = $_SESSION['user_id'];
-$query = "SELECT * FROM users WHERE id = '$user_id'";
-$result = mysqli_query($conn, $query);
-
-// Cek apakah query berhasil dan data ditemukan
-if (!$result) {
-    die("Query error: " . mysqli_error($conn));
-}
-
-$user = mysqli_fetch_assoc($result);
-
-// Memeriksa apakah pengguna adalah tipe 'blind'
-if (!$user) {
-    die("Pengguna tidak ditemukan.");
-}
-
-if ($user['account_type'] != 'blind') {
-    header("Location: ../comp/error.html");
-}
-
-// Menangani tombol panggil volunteer
-if (isset($_POST['call_volunteer'])) {
-    // Mencari volunteer yang cocok berdasarkan kebiasaan
-    $activities = $user['daily_activities'];
-    $query_volunteer = "SELECT * FROM users WHERE account_type = 'volunteer' AND daily_activities LIKE '%$activities%' ORDER BY RAND() LIMIT 1";
-    $volunteer_result = mysqli_query($conn, $query_volunteer);
-    $volunteer = mysqli_fetch_assoc($volunteer_result);
-
-    if ($volunteer) {
-        $volunteer_info = "Volunteer ditemukan: " . $volunteer['name'];
-        echo $volunteer_info;
-    } else {
-        $volunteer_info = "Maaf, tidak ada volunteer yang cocok saat ini.";
-        echo $volunteer_info;
-    }
+if ($account_type != "blind") {
+    header("Location: comp/error.html");
 }
 
 ?>

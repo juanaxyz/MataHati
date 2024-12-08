@@ -1,63 +1,35 @@
+
 <?php
-// Memulai sesi
 session_start();
-require_once "./database.php";
+include "./database.php";
 
+$login_message = " ";
 
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    if (isset($_POST['action']) && $_POST['action'] === 'signup') {
-        // Proses Sign-Up
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = md5($_POST['password']); // MD5 hashing
-        $account_type = $_POST['account_type'];
+if(isset($_POST["login"])){
+    $email = $_POST["email"];
+    $password = md5($_POST["password"]);
 
-        $stmt = $conn->prepare("INSERT INTO users (name,email, password, account_type) VALUES (?, ?, ?, ?)");
-        $stmt->bind_param("ssss",$name, $email, $password, $account_type);
+    $query  = "SELECT * FROM users WHERE email = '$email' AND password = '$password' ";
+    $result = $conn ->query($query);
 
-        if ($stmt->execute()) {
-            // Simpan data sementara di session untuk aktivitas
-            $_SESSION['signup_email'] = $email;
-            $_SESSION['signup_account_type'] = $account_type;
-            // Redirect to daily activities form
-            header("Location: ../comp/dailyActivities.php"); // Change to your actual page
-            exit();
-        } else {
-            echo "<script>alert('Gagal membuat akun. Email mungkin sudah terdaftar.');</script>";
+    if($result -> num_rows > 0){
+        $data = $result -> fetch_assoc();
+        $_SESSION["username"] = $data["name"];
+        $_SESSION["accountType"] = $data["account_type"];
+        $_SESSION["isLogin"] = true;
+
+        if($data['account_type'] == "blind"){
+            header("location: ../blind.php");
+            exit;
+        }else{
+            header("location: ../volunteer.php");
+            exit;  
         }
     }
-
-    if (isset($_POST['action']) && $_POST['action'] === 'login') {
-        // Proses Login
-        $email = $_POST['email'];
-        $password = md5($_POST['password']); // MD5 hashing
-
-        $stmt = $conn ->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-
-            if ($password == $user['password']) {
-                $_SESSION['user_id'] = $user['id'];
-                $_SESSION['account_type'] = $user['account_type'];
-
-                if ($user['account_type'] == 'blind') {
-                    header("Location: blind.php");
-                } else {
-                    header("Location: volunteer.php");
-                }
-                exit();
-            } else {
-                echo "<script>alert('Email atau password salah.');</script>";
-            }
-        } else {
-            echo "<script>alert('Email tidak ditemukan.');</script>";
-        }
-    }
+    $login_message = "akun tidak ditemukan";
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -66,24 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MataHati</title>
+    <title>Login MataHati</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 
 <body>
+
     <!-- bg animate -->
-    <div>
-        <div class='light x1'></div>
-        <div class='light x2'></div>
-        <div class='light x3'></div>
-        <div class='light x4'></div>
-        <div class='light x5'></div>
-        <div class='light x6'></div>
-        <div class='light x7'></div>
-        <div class='light x8'></div>
-        <div class='light x9'></div>
-    </div>
+    <?php include "../comp/bg-animation.html" ?>
 
     <div class="row" style="height: 100vh;">
         <div class="col-5 bg-dark bg-gradient logo-container text-light">
@@ -92,113 +56,43 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <span class="col-7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident voluptas corrupti quia laudantium mollitia?</span>
         </div>
 
-        <!-- sign-up -->
-        <div class="active col-7 h-100 d-flex justify-content-center align-items-center" id="signupform">
+        <!-- login form -->
+        <div class=" col-7 h-100 d-flex justify-content-center align-items-center" id="loginform">
             <div class="col-5">
-                <h2>Sign-Up into MataHati</h2>
-                <span>Enter your sign-up details below</span>
-                <form method="POST" action="" id="signup-form">
-                    <input type="hidden" name="action" value="signup">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="nameSignup" name="name" required>
+                <h2>Login into MataHati</h2>
+                <span>Enter your login details below</span>
+
+                
+                <form class="align-middle rounded mt-3" action="login.php" method="POST">
+                    <input type="hidden" name="action" value="login">
+                    <div class="mb-2">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" name="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="example@mail.com" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="emailSignup" name="email" required>
-                    </div>
-                    <div class="mb-3">
+                    <div class="mb-2 ">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="passwordSignup" name="password" required>
+                        <input type="password" name="password" class="form-control" id="passwordLogin" placeholder="Enter your password" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="accountType" class="form-label">Account Type</label>
-                        <select class="form-select" id="accountType" name="account_type" required>
-                            <option value="blind">Blind</option>
-                            <option value="volunteer">Volunteer</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" name="login">Submit</button>
                 </form>
-                <button class="switch-form" onclick="switchForm('loginForm')">Already have an account? Login</button>
+                <button class="switch-form"><a href="./signup.php">Didn't have an account? Sign-Up here</a></button>
             </div>
         </div>
-
-
-        <!-- login form -->
-        <div class="d-none col-7 h-100 d-flex justify-content-center align-items-center" id="loginform">
-    <div class="col-5">
-        <h2>Login into MataHati</h2>
-        <span>Enter your login details below</span>
-        <?php if (isset($error_message)): ?>
-            <div class="alert alert-danger" role="alert">
-                <?= htmlspecialchars($error_message) ?>
-            </div>
-        <?php endif; ?>
-        <form class="align-middle rounded mt-3" action="" method="POST">
-            <input type="hidden" name="action" value="login">
-            <div class="mb-2">
-                <label for="email" class="form-label">Email address</label>
-                <input type="email" name="email" class="form-control" id="emailLogin" aria-describedby="emailHelp" placeholder="example@mail.com" required>
-            </div>
-            <div class="mb-2 ">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" class="form-control" id="passwordLogin" placeholder="Enter your password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        <button class="switch-form" onclick="switchForm('signupform')">Didn't have an account? Sign-Up here</button>
-    </div>
-</div>
     </div>
 </body>
 <script src="../assets/js/bootstrap.min.js"></script>
+
 <script>
-   //buat script disini
-   function switchForm(targetForm) {
-    const signupForm = document.getElementById('signupform');
-    const loginForm = document.getElementById('loginform');
+        document.addEventListener('DOMContentLoaded', function() {
+            <?php if (isset($login_message) && $login_message != ""): ?>
+                Swal.fire({
+                    title: "Error! ",
+                    text: "<?= $login_message ?> cek kembali kata sandi dan password anda",
+                    icon: "error"
+                });
 
-    // Add exit animation to current active form
-    const activeForm = document.querySelector('.active');
-    activeForm.classList.add('form-exit');
+            <?php endif; ?>
+        });
+    </script>
 
-    // Remove exit animation and switch forms after transition
-    setTimeout(() => {
-        activeForm.classList.remove('active', 'form-exit');
-        activeForm.classList.add('d-none');
-
-        if (targetForm === 'loginForm') {
-            loginForm.classList.remove('d-none');
-            loginForm.classList.add('active', 'form-enter');
-        } else {
-            signupForm.classList.remove('d-none');
-            signupForm.classList.add('active', 'form-enter');
-        }
-
-        // Remove enter animation after transition
-        setTimeout(() => {
-            document.querySelector('.form-enter').classList.remove('form-enter');
-        }, 500);
-    }, 500);
-}
-
-function showDailyActivities() {
-    const signupForm = document.getElementById('signupform');
-    const dailyActivitiesForm = document.getElementById('dailyActivitiesForm');
-
-    signupForm.classList.add('form-exit');
-
-    setTimeout(() => {
-        signupForm.classList.remove('active', 'form-exit');
-        signupForm.classList.add('d-none');
-        dailyActivitiesForm.classList.remove('d-none');
-        dailyActivitiesForm.classList.add('active', 'form-enter');
-
-        setTimeout(() => {
-            document.querySelector('.form-enter').classList.remove('form-enter');
-        }, 500);
-    }, 500);
-}
-</script>
 </html>
