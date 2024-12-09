@@ -8,29 +8,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
   <body>
 
 
     <!-- Preloader -->
-    <div class="preloader">
+    <!-- <div class="preloader">
       <div class="loading">
         <div class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
-   
-    <?php include "./comp/navbar.html"?>
+   <div class="animate__animated animate__fadeInDown" >
+     <?php include "./comp/navbar.html"?>
+
+   </div>
     <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true">
 
     <!-- home section -->
-    <section class="home" id="home" >
+    <section class="home " id="home" >
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6">
-            <div class="text">
+            <div class="text animate__animated animate__fadeInLeft animate__delay-1s" >
               <h1>
                 We Provide <span>Computer Vision</span> to Perfect the
                 <span>Experience</span>
@@ -45,8 +50,8 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-6">
-            <div class="hero-image">
+          <div class="col-lg-6 animate__animated animate__fadeInRight animate__delay-1s">
+            <div class="hero-image ">
               <img src="./assets/img/hero.png" alt="Computer Vision Illustration" class="img-fluid">
             </div>
           </div>
@@ -57,14 +62,14 @@
     <!-- stories section -->
     <section class="stories" id="stories" >
       <div class="container">
-        <div class="section-header text-center">
+        <div class="section-header text-center" data-aos="fade-down">
           <h2>What They Say About <span>MataHati</span></h2>
           <p class="subtitle">Discover how MataHati has transformed businesses through computer vision technology</p>
         </div>
 
         <div class="row g-4 mt-4">
           <!-- Testimonial Card 1 -->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="500">
             <div class="testimonial-card">
               <div class="profile">
                 <img src="./assets/img/testimonial1.jpeg" alt="John Doe" class="profile-img">
@@ -87,7 +92,7 @@
           </div>
 
           <!-- Testimonial Card 2 -->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="1000">
             <div class="testimonial-card">
               <div class="profile">
                 <img src="./assets/img/testimonial1.jpeg" alt="Sarah Johnson" class="profile-img">
@@ -110,7 +115,7 @@
           </div>
 
           <!-- Testimonial Card 3 -->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="flip-left" data-aos-delay="1500">
             <div class="testimonial-card">
               <div class="profile">
                 <img src="./assets/img/testimonial1.jpeg" alt="Alex Chen" class="profile-img">
@@ -140,12 +145,12 @@
     <!-- services section -->
     <section class="services" id="services" >
       <div class="container">
-        <div class="section-header text-center">
+        <div class="section-header text-center" data-aos="fade-up">
           <h2>Our <span>Services</span></h2>
           <p class="subtitle">Connecting visually impaired individuals with nearby volunteers through smart phone technology</p>
         </div>
 
-        <div class="row g-4 mt-4">
+        <div class="row g-4 mt-4" data-aos="fade-down" >
           <!-- Main Feature Highlight -->
           <div class="col-12 mb-5">
             <div class="feature-highlight">
@@ -183,7 +188,7 @@
           </div>
 
           <!-- Service Cards -->
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="fade-down" data-aos-delay="200">
             <div class="service-card">
               <div class="icon-wrapper">
                 <i class="fas fa-phone-alt"></i>
@@ -198,7 +203,7 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="fade-down" data-aos-delay="400">
             <div class="service-card">
               <div class="icon-wrapper">
                 <i class="fas fa-map-marker-alt"></i>
@@ -213,7 +218,7 @@
             </div>
           </div>
 
-          <div class="col-lg-4 col-md-6">
+          <div class="col-lg-4 col-md-6" data-aos="fade-down" data-aos-delay="600">
             <div class="service-card">
               <div class="icon-wrapper">
                 <i class="fas fa-shield-alt"></i>
@@ -246,5 +251,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/bootstrap.min.js"></script>
     <script src="./assets/js/main.js"></script>
+    <script>
+        AOS.init();
+
+    </script>
   </body>
 </html>
