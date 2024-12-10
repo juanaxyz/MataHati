@@ -3,7 +3,15 @@ session_start();
 include "./database.php";
 
 $login_message = " ";
-
+if (isset($_SESSION["isLogin"])) {
+    if ($_SESSION['accountType'] == "blind") {
+        header("location: ../blind.php");
+        exit;
+    } else {
+        header("location: ../volunteer.php");
+        exit;
+    }
+}
 if (isset($_POST["login"])) {
     $email = $_POST["email"];
     $password = md5($_POST["password"]);

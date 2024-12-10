@@ -6,136 +6,158 @@ $account_type = isset($_SESSION['accountType']);
 // Memeriksa apakah pengguna sudah login
 if ($account_type != "blind") {
     header("Location: comp/error.html");
+    exit();
 }
 
+if (isset($_POST["logout"])) {
+    session_unset();
+    session_destroy();
+    header("location: index.php");
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MataHati</title>
-    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=O4BwsMp0"></script>
     <style>
-        * {
-            border: 1px, solid, red;
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
-        /* Tambahkan beberapa gaya untuk panel dan tombol */
-        #statusPanel {
+        .full-height {
             height: 100vh;
-            /* Panel status akan mengisi tinggi layar */
-            overflow-y: auto;
-            /* Jika konten lebih banyak, tambahkan scrollbar */
+            display: flex;
+        }
+
+        .logout-container {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 1000;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        .active-users-panel {
+            width: 30%;
+            background-color: #f0f0f0;
             padding: 20px;
-            /* Beri sedikit padding untuk estetika */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
         }
 
-        .big-button {
-            width: 100%;
-            /* Tombol akan mengambil lebar penuh */
-            height: 100px;
-            /* Tinggi tombol */
-            font-size: 1.5rem;
-            /* Ukuran font yang lebih besar */
+        .volunteer-call-panel {
+            width: 70%;
+            background-color: #e6f2ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        @media (max-width: 768px) {
+        .call-volunteer-btn {
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-            /* Di mobile, kita bisa menyesuaikan gaya lebih lanjut jika diperlukan */
-            #statusPanel {
-                height: auto;
-                /* Panel tidak perlu mengisi tinggi layar */
+        .call-volunteer-btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Responsiveness */
+        @media screen and (max-width: 768px) {
+            .full-height {
+                flex-direction: column;
+            }
+
+            .active-users-panel,
+            .volunteer-call-panel {
+                width: 100%;
+                height: 50%;
+            }
+
+            .call-volunteer-btn {
+                height: 200px;
+                font-size: 18px;
+                width: 90%;
             }
         }
 
-        .row {
-            height: 100vh;
-        }
-
-        .rounded-circle {
-            width: 400px;
-            height: 400px;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #dc3545;
-            /* Red background */
-            border-radius: 50%;
-            /* Make it circular */
-            color: white;
-            /* Text color */
-            font-size: 2rem;
-            /* Font size */
-            cursor: pointer;
-            /* Pointer cursor on hover */
-            transition: background-color 0.3s, transform 0.3s;
-            /* Smooth transition */
-        }
-
-        .rounded-circle:hover {
-            background-color: #c82333;
-            /* Darker red on hover */
-            transform: scale(1.05);
-            /* Slightly enlarge on hover */
-        }
-
-        .rounded-circle:active {
-            transform: scale(0.95);
-            /* Slightly shrink on click */
-        }
-
-        /* Flexbox untuk menempatkan tombol di tengah */
-        .centered-container {
-            display: flex;
-            justify-content: center;
-            /* Horizontal center */
-            align-items: center;
-            /* Vertical center */
-            height: 100%;
-            /* Full height of parent */
+        @media screen and (max-width: 480px) {
+            .call-volunteer-btn {
+                height: 150px;
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 
 <body>
-    <section class="container-fluid text-center">
-        <div class="row">
-            <div class="col-lg-2 col-md-12 bg-light-subtle" id="statusPanel">
-                <h5>Status Online</h5>
-                <p id="onlineCount">Jumlah Orang Online: <strong id="onlineNumber">5</strong></p>
-            </div>
-            <div class="col-lg-10 col-md-12 d-flex align-items-center bg-secondary">
-                <div class="centered-container w-100">
-                    <div class="rounded-circle" id="speakButton">
-                        <form method="POST">
-                            <button type="submit" name="call_volunteer">Call Volunteer</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
+    <div class="logout-container">
+        <form action="blind.php" method="POST" >
+            <button type="submit" class="logout-btn" name="logout">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
+    </div>
+
+    <div class="full-height">
+        <div class="active-users-panel" id="statusPanel">
+            <p>Jumlah Pengguna Aktif: <span id="onlinePeople">5</span></p>
         </div>
-    </section>
+        <div class="volunteer-call-panel">
+            <button class="call-volunteer-btn" id="speakButton">
+                Call Volunteer
+            </button>
+        </div>
+    </div>
 
     <script src="./assets/js/bootstrap.min.js"></script>
     <script>
-        // Fungsi untuk berbicara
         function speak(text) {
             responsiveVoice.speak(text, "Indonesian Female");
         }
 
-        // Event listener untuk bagian status
         document.getElementById('statusPanel').addEventListener('click', function() {
-            const onlineCount = document.getElementById('onlineNumber').textContent;
+            const onlineCount = document.getElementById('onlinePeople').textContent;
             const text = `Jumlah orang online ada: ${onlineCount} pengguna`;
             speak(text);
         });
 
-        // Event listener untuk tombol
         document.getElementById('speakButton').addEventListener('click', function() {
             const text = "Melakukan Panggilan. Silahkan Tunggu...!";
             speak(text);
