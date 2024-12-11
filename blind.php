@@ -128,7 +128,7 @@ if (isset($_POST["logout"])) {
 <body>
 
     <div class="logout-container">
-        <form action="blind.php" method="POST" >
+        <form action="blind.php" method="POST">
             <button type="submit" class="logout-btn" name="logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </button>
@@ -161,6 +161,23 @@ if (isset($_POST["logout"])) {
         document.getElementById('speakButton').addEventListener('click', function() {
             const text = "Melakukan Panggilan. Silahkan Tunggu...!";
             speak(text);
+        });
+
+        navigator.geolocation.getCurrentPosition((position) => {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Send this data to your server to store in the database
+            fetch('config/save_location.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    latitude,
+                    longitude
+                }),
+            });
         });
     </script>
 </body>

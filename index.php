@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MataHati</title>
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MataHati</title>
+  <link rel="stylesheet" href="./assets/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
-  <body>
+
+<body>
 
 
-    <!-- Preloader -->
-    <!-- <div class="preloader">
+  <!-- Preloader -->
+  <div class="preloader">
       <div class="loading">
         <div class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-    </div> -->
+    </div>
 
-   <div class="animate__animated animate__fadeInDown" >
-     <?php include "./comp/navbar.html"?>
+  <div class="animate__animated animate__fadeInDown">
+    <?php include "./comp/navbar.html" ?>
 
-   </div>
-    <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true">
+  </div>
+  <div data-bs-spy="scroll" data-bs-target="#navbar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true">
 
     <!-- home section -->
-    <section class="home " id="home" >
+    <section class="home " id="home">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-lg-6">
-            <div class="text animate__animated animate__fadeInLeft animate__delay-1s" >
+            <div class="text animate__animated animate__fadeInLeft animate__delay-1s">
               <h1>
                 We Provide <span>Computer Vision</span> to Perfect the
                 <span>Experience</span>
@@ -60,7 +62,7 @@
     </section>
 
     <!-- stories section -->
-    <section class="stories" id="stories" >
+    <section class="stories" id="stories">
       <div class="container">
         <div class="section-header text-center" data-aos="fade-down">
           <h2>What They Say About <span>MataHati</span></h2>
@@ -138,19 +140,19 @@
           </div>
         </div>
 
-      
+
       </div>
     </section>
 
     <!-- services section -->
-    <section class="services" id="services" >
+    <section class="services" id="services">
       <div class="container">
         <div class="section-header text-center" data-aos="fade-up">
           <h2>Our <span>Services</span></h2>
           <p class="subtitle">Connecting visually impaired individuals with nearby volunteers through smart phone technology</p>
         </div>
 
-        <div class="row g-4 mt-4" data-aos="fade-down" >
+        <div class="row g-4 mt-4" data-aos="fade-down">
           <!-- Main Feature Highlight -->
           <div class="col-12 mb-5">
             <div class="feature-highlight">
@@ -236,24 +238,26 @@
       </div>
 
 
-        <!-- Call to Action -->
-        <div class="cta-box text-center mt-5">
-          <h3>Ready to Experience MataHati?</h3>
-          <p>Join our community and make a difference in someone's life today</p>
-          <div class="cta-buttons">
-            <a href="#" class="btn primary me-3">Become a Volunteer</a>
-            <a href="#" class="btn btn-outline-success">Need Assistance?</a>
-          </div>
+      <!-- Call to Action -->
+      <div class="cta-box text-center mt-5">
+        <h3>Ready to Experience MataHati?</h3>
+        <p>Join our community and make a difference in someone's life today</p>
+        <div class="cta-buttons">
+          <a href="#" class="btn primary me-3">Become a Volunteer</a>
+          <a href="#" class="btn btn-outline-success">Need Assistance?</a>
         </div>
       </div>
-    </section>
+  </div>
+  </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/js/bootstrap.min.js"></script>
-    <script src="./assets/js/main.js"></script>
-    <script>
-        AOS.init();
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    AOS.init();
 
-    </script>
-  </body>
+    $(window).on('load', function() {
+      $(".preloader").fadeOut("1500");
+    });
+  </script>
+</body>
+
 </html>

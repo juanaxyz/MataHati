@@ -1,9 +1,11 @@
 <?php
 session_start();
-include "./database.php";
+include ".\database.php";
+
+$_SESSION["isLogin"] = false;
 
 $login_message = " ";
-if (isset($_SESSION["isLogin"])) {
+if ($_SESSION["isLogin"]) {
     if ($_SESSION['accountType'] == "blind") {
         header("location: ../blind.php");
         exit;
@@ -12,20 +14,59 @@ if (isset($_SESSION["isLogin"])) {
         exit;
     }
 }
+
+// Fungsi untuk mendapatkan lokasi dari IP
+function dapatkanLokasiDariIP()
+{
+    $ip = $_SERVER['REMOTE_ADDR'];
+    $geolokasi = @file_get_contents("https://ipapi.co/{$ip}/json/");
+
+    if ($geolokasi) {
+        $data = json_decode($geolokasi, true);
+        return [
+            'latitude' => $data['latitude'] ?? null,
+            'longitude' => $data['longitude'] ?? null
+        ];
+    }
+
+    return null;
+}
+
 if (isset($_POST["login"])) {
     $email = $_POST["email"];
     $password = md5($_POST["password"]);
+
+    // Tambahan lokasi dari parameter POST
+    $latitude = $_POST["latitude"] ?? null;
+    $longitude = $_POST["longitude"] ?? null;
 
     $query  = "SELECT * FROM users WHERE email = '$email' AND password = '$password' ";
     $result = $conn->query($query);
 
     if ($result->num_rows > 0) {
         $data = $result->fetch_assoc();
-        $_SESSION["username"] = $data["name"];
+        $_SESSION["userID"] = $data["id"];
         $_SESSION["accountType"] = $data["account_type"];
         $_SESSION["isLogin"] = true;
 
-        if ($data['account_type'] == "blind") {
+        // Update lokasi user
+        if ($latitude && $longitude) {
+            $update_lokasi_query = "UPDATE users SET latitude = ?, longitude = ? WHERE id = ?";
+            $stmt = $conn->prepare($update_lokasi_query);
+            $stmt->bind_param("ddi", $latitude, $longitude, $data["id"]);
+            $stmt->execute();
+        } else {
+            // Jika tidak ada lokasi dari browser, gunakan IP
+            $lokasi = dapatkanLokasiDariIP();
+            if ($lokasi) {
+                $update_lokasi_query = "UPDATE users SET latitude = ?, longitude = ? WHERE id = ?";
+                $stmt = $conn->prepare($update_lokasi_query);
+                $stmt->bind_param("ddi", $lokasi['latitude'], $lokasi['longitude'], $data["id"]);
+                $stmt->execute();
+            }
+        }
+
+        if ($_SESSION["accountType"] == "blind") {
             header("location: ../blind.php");
             exit;
         } else {
@@ -37,6 +78,8 @@ if (isset($_POST["login"])) {
 }
 ?>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -45,6 +88,7 @@ if (isset($_POST["login"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login MataHati</title>
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body,
@@ -106,6 +150,26 @@ if (isset($_POST["login"])) {
             }
         }
     </style>
+
+    <script>
+        function dapatkanLokasi() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(posisi) {
+                    // Simpan latitude dan longitude ke input tersembunyi
+                    document.getElementById('latitudeInput').value = posisi.coords.latitude;
+                    document.getElementById('longitudeInput').value = posisi.coords.longitude;
+                }, function(error) {
+                    // Jika gagal, biarkan input kosong
+                    console.log("Gagal mendapatkan lokasi: " + error.message);
+                });
+            } else {
+                console.log('Geolokasi tidak didukung');
+            }
+        }
+
+        // Panggil fungsi dapatkanLokasi saat halaman dimuat
+        window.onload = dapatkanLokasi;
+    </script>
 </head>
 
 <body>
@@ -114,7 +178,7 @@ if (isset($_POST["login"])) {
 
     <section class="ftco-section bg-dark bg-gradient text-light" style="height: 100vh;">
         <div class="container ">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center animate__animated animate__fadeInDown">
                 <div class="logo-container text-light">
                     <img src="../assets/img/logo.png" alt="logo MataHati" />
                     <h2>MataHati</h2>
@@ -123,12 +187,14 @@ if (isset($_POST["login"])) {
                     </p>
                 </div>
             </div>
-            <div class="row justify-content-center ">
+            <div class="row justify-content-center animate__animated animate__fadeInUp">
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
                         <h3 class="mb-4 text-center">Have an account?</h3>
                         <form action="login.php" method="POST">
                             <input type="hidden" name="action" value="login">
+                            <input type="hidden" id="latitudeInput" name="latitude">
+                            <input type="hidden" id="longitudeInput" name="longitude">
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email address</label>
                                 <input type="email" name="email" class="form-control" id="emailLogin"
@@ -142,7 +208,7 @@ if (isset($_POST["login"])) {
                             <button type="submit" class="btn btn-primary w-100" name="login">Login</button>
                         </form>
                         <div class="switch-form">
-                            <a href="./signup.php">Don't have an account? Sign Up</a>
+                            <a href="signup.php">Don't have an account? Sign Up</a>
                         </div>
 
                     </div>

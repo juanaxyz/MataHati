@@ -1,10 +1,12 @@
 <?php
 session_start();
 require_once "database.php";
-$register_message = "";
-$success_message = " ";
+$register_message = " ";
+$success_message = "";
 
-if (isset($_SESSION["isLogin"])) {
+$_SESSION["isLogin"] = false;
+
+if ($_SESSION["isLogin"]) {
     if ($_SESSION['accountType'] == "blind") {
         header("location: ../blind.php");
         exit;
@@ -44,6 +46,7 @@ if (isset($_POST['register'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Sign Up MataHati</title>
     <style>
@@ -78,7 +81,6 @@ if (isset($_POST['register'])) {
 
         .logo-container img {
             max-width: 150px;
-            margin-bottom: 15px;
         }
 
         .switch-form {
@@ -111,9 +113,9 @@ if (isset($_POST['register'])) {
     <!-- bg animate -->
     <?php include "../comp/bg-animation.html" ?>
 
-    <section class="ftco-section bg-dark bg-gradient text-light" style="height: 100vh;">
+    <section class="ftco-section bg-dark bg-gradient text-light " style="height: 100vh;">
         <div class="container ">
-            <div class="row justify-content-center">
+            <div class="row justify-content-center  animate__animated animate__fadeInDown">
                 <div class="logo-container text-light">
                     <img src="../assets/img/logo.png" alt="logo MataHati" />
                     <h2>MataHati</h2>
@@ -123,10 +125,10 @@ if (isset($_POST['register'])) {
                 </div>
             </div>
 
-            <div class="row justify-content-center ">
+            <div class="row justify-content-center animate__animated animate__fadeInUp">
                 <div class="col-md-6 col-lg-4">
                     <div class="signup-wrap p-0">
-                        <h3 class="mb-4 text-center">Don't Have an account?</h3>
+                        <h3 class="text-center">Don't Have an account?</h3>
                         <form method="POST" action="signup.php" class="align-middle rounded mt-3">
                             <input type="hidden" name="action" value="signup">
                             <div class="mb-3">
@@ -164,7 +166,7 @@ if (isset($_POST['register'])) {
 
     <script src="../assets/js/bootstrap.min.js"></script>
 </body>
-<?php if (isset($register_message) && $register_message != ""): ?>
+<?php if (isset($register_message) && $register_message != " "): ?>
     <script>
         Swal.fire({
             title: "Error! ",
