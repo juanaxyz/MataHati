@@ -175,7 +175,6 @@ if (isset($_POST["login"])) {
 <body>
     <!-- bg animate -->
     <?php include "../comp/bg-animation.html" ?>
-
     <section class="ftco-section bg-dark bg-gradient text-light" style="height: 100vh;">
         <div class="container ">
             <div class="row justify-content-center animate__animated animate__fadeInDown">

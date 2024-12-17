@@ -18,13 +18,13 @@
 
 
   <!-- Preloader -->
-  <div class="preloader">
+  <!-- <div class="preloader">
       <div class="loading">
         <div class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-    </div>
+    </div> -->
 
   <div class="animate__animated animate__fadeInDown">
     <?php include "./comp/navbar.html" ?>

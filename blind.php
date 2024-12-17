@@ -23,21 +23,24 @@ if (isset($_POST["logout"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MataHati</title>
+    <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://code.responsivevoice.org/responsivevoice.js?key=O4BwsMp0"></script>
     <style>
-        html,
-        body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+        .local {
+    width: 80px;
+    height: 80px;
+    background-color: #223344;
+    top: 15px;
+    right: 15px;
+    z-index: 1;
+}
 
-        .full-height {
-            height: 100vh;
-            display: flex;
-        }
-
+.remote {
+    width: 500px;
+    height: 500px;
+    background-color: #384552;
+}
         .logout-container {
             position: absolute;
             top: 15px;
@@ -58,20 +61,9 @@ if (isset($_POST["logout"])) {
         .logout-btn:hover {
             background-color: #c82333;
         }
-
-        .active-users-panel {
-            width: 30%;
-            background-color: #f0f0f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
+      
         .volunteer-call-panel {
-            width: 70%;
+            width: 100%;
             background-color: #e6f2ff;
             display: flex;
             justify-content: center;
@@ -95,10 +87,10 @@ if (isset($_POST["logout"])) {
 
         .call-volunteer-btn:hover {
             background-color: #2980b9;
-        }
+        } 
 
         /* Responsiveness */
-        @media screen and (max-width: 768px) {
+         @media screen and (max-width: 768px) {
             .full-height {
                 flex-direction: column;
             }
@@ -121,11 +113,12 @@ if (isset($_POST["logout"])) {
                 height: 150px;
                 font-size: 16px;
             }
-        }
+        } 
     </style>
 </head>
 
 <body>
+<input type="hidden" id="accountType" value="<?php echo $_SESSION['accountType']; ?>">
 
     <div class="logout-container">
         <form action="blind.php" method="POST">
@@ -135,16 +128,18 @@ if (isset($_POST["logout"])) {
         </form>
     </div>
 
+
     <div class="full-height">
-        <div class="active-users-panel" id="statusPanel">
-            <p>Jumlah Pengguna Aktif: <span id="onlinePeople">5</span></p>
-        </div>
         <div class="volunteer-call-panel">
-            <button class="call-volunteer-btn" id="speakButton">
+            <a href="videocall\index.html">call</a>
+            <button class="call-volunteer-btn" id="btnPlug" onclick="'videocall\index.html';">
                 Call Volunteer
             </button>
         </div>
     </div>
+
+
+
 
     <script src="./assets/js/bootstrap.min.js"></script>
     <script>
@@ -158,7 +153,7 @@ if (isset($_POST["logout"])) {
             speak(text);
         });
 
-        document.getElementById('speakButton').addEventListener('click', function() {
+        document.getElementById('call').addEventListener('click', function() {
             const text = "Melakukan Panggilan. Silahkan Tunggu...!";
             speak(text);
         });
