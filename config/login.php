@@ -68,10 +68,10 @@ if (isset($_POST["login"])) {
 
         if ($_SESSION["accountType"] == "blind") {
             header("location: ../blind.php");
-            exit;
+            exit();
         } else {
             header("location: ../volunteer.php");
-            exit;
+            exit();
         }
     }
     $login_message = "akun tidak ditemukan";
