@@ -10,6 +10,7 @@ MataHati adalah aplikasi web yang dirancang untuk menghubungkan individu dengan 
 - **Bagian Cerita**: Menampilkan testimoni dari pengguna yang telah mendapatkan manfaat dari MataHati.
 - **Bagian Layanan**: Menyoroti layanan utama yang ditawarkan oleh MataHati, termasuk koneksi relawan instan, panggilan telepon yang mudah, pencocokan cerdas, dan langkah-langkah keamanan.
 - **Ajakan untuk Bertindak**: Mendorong pengguna untuk menjadi relawan atau meminta bantuan.
+- **Video Call**: Fitur panggilan video untuk komunikasi langsung antara pengguna dan relawan.
 
 ## Teknologi yang Digunakan
 
@@ -18,6 +19,7 @@ MataHati adalah aplikasi web yang dirancang untuk menghubungkan individu dengan 
 - Bootstrap 5
 - jQuery
 - Font Awesome
+- AgoraRTC (untuk fitur panggilan video)
 
 ## Instalasi
 
@@ -27,3 +29,17 @@ Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
    ```bash
    git clone https://github.com/tudeardana/matahati.git
    cd matahati
+Instalasi XAMPP: Pastikan Anda memiliki XAMPP terinstal di komputer Anda.
+
+Buat Database:
+
+Buka phpMyAdmin (biasanya di http://localhost/phpmyadmin).
+Buat database baru dengan nama matahati.
+Jalankan skrip SQL untuk membuat tabel yang diperlukan (jika ada).
+Konfigurasi Database:
+
+Edit file config/database.php untuk menyesuaikan dengan pengaturan database Anda.
+Jalankan Server:
+
+Jalankan XAMPP dan aktifkan Apache dan MySQL.
+Akses aplikasi di browser Anda melalui http://localhost/MataHati.

@@ -35,13 +35,13 @@ if (isset($_POST["logout"])) {
             transform: translateX(-50%);
         }
 
-        #local {
+        #remote {
             width: 100%;
             height: 100vh;
             object-fit: cover;
         }
 
-        #remote {
+        #local {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -63,7 +63,7 @@ if (isset($_POST["logout"])) {
 </head>
 
 <body class="bg-dark vh-100 overflow-hidden position-relative">
-    <div class="position-absolute top-0 end-0 p-3">
+    <div class="position-absolute top-0 start-0 p-3">
         <form action="volunteer.php" method="POST">
             <button type="submit" class="logout-btn" name="logout">
                 <i class="fas fa-sign-out-alt"></i> Logout
@@ -82,7 +82,7 @@ if (isset($_POST["logout"])) {
         </button>
     </div>
 
-    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="./assets/js/AgoraRTC_N-4.2.1.js"></script>
     <script>
@@ -110,6 +110,7 @@ if (isset($_POST["logout"])) {
         const btnPlug = $('#btnPlug');
         const remote = $('#remote');
         const local = $('#local');
+        let acceptCall =true;
 
         const join = async () => {
             rtc.client = AgoraRTC.createClient(config);
@@ -124,7 +125,7 @@ if (isset($_POST["logout"])) {
                 rtc.client.on('user-published', async (user, mediaType) => {
                     // Confirmation only for volunteer (answerer)
                     if (accountType == "volunteer") {
-                        const acceptCall = confirm("Panggilan masuk, apakah Anda ingin menjawab?");
+                        acceptCall = confirm("Panggilan masuk, apakah Anda ingin menjawab?");
                         if (!acceptCall) {
                             console.log("Panggilan ditolak.");
                             return;

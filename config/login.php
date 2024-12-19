@@ -1,10 +1,10 @@
 <?php
 session_start();
-include ".\database.php";
+include "database.php";
+$login_message = " ";
 
 $_SESSION["isLogin"] = false;
 
-$login_message = " ";
 if ($_SESSION["isLogin"]) {
     if ($_SESSION['accountType'] == "blind") {
         header("location: ../blind.php");

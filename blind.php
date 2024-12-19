@@ -36,13 +36,13 @@ if (isset($_POST["logout"])) {
             transform: translateX(-50%);
         }
 
-        #local {
+        #remote {
             width: 100%;
             height: 100vh;
             object-fit: cover;
         }
 
-        #remote {
+        #local {
             position: absolute;
             top: 20px;
             right: 20px;
@@ -225,7 +225,7 @@ if (isset($_POST["logout"])) {
         const btnPlug = $('#btnPlug');
         const remote = $('#remote');
         const local = $('#local');
-
+        let acceptCall =true;
 
 
         const join = async () => {
@@ -237,11 +237,12 @@ if (isset($_POST["logout"])) {
             join().then(() => {
                 startVideo();
                 startAudio();
+             
 
                 rtc.client.on('user-published', async (user, mediaType) => {
                     // Confirmation only for volunteer (answerer)
                     if (accountType == "volunteer") {
-                        const acceptCall = confirm("Panggilan masuk, apakah Anda ingin menjawab?");
+                        acceptCall = confirm("Panggilan masuk, apakah Anda ingin menjawab?");
                         if (!acceptCall) {
                             console.log("Panggilan ditolak.");
                             return;

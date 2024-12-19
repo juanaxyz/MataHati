@@ -4,6 +4,7 @@ require_once "database.php";
 $register_message = " ";
 $success_message = "";
 
+$_SESSION["isLogin"] = false;
 
 if ($_SESSION["isLogin"]) {
     if ($_SESSION['accountType'] == "blind") {

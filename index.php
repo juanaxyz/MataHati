@@ -47,8 +47,7 @@
                 sed nisl pellentesque, faucibus libero eu, gravida quam.
               </p>
               <div class="button">
-                <a href="#" class="btn primary">Demo Mata Hati</a>
-                <a href="#" class="btn btn-outline-success">Learn More</a>
+                <a href="./assets/img/demo matahati - Made with Clipchamp.mp4" class="btn primary">Demo Mata Hati</a>
               </div>
             </div>
           </div>
