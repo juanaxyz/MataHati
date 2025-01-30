@@ -27,7 +27,7 @@ Untuk menjalankan proyek ini secara lokal, ikuti langkah-langkah berikut:
 
 1. **Klon repositori**:
    ```bash
-   git clone https://github.com/tudeardana/matahati.git
+   git clone https://github.com/juanaxyz/matahati.git
    cd matahati
 Instalasi XAMPP: Pastikan Anda memiliki XAMPP terinstal di komputer Anda.
 
